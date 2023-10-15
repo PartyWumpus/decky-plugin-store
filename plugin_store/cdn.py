@@ -3,9 +3,9 @@ from hashlib import sha1, sha256
 from os import getenv
 from typing import TYPE_CHECKING
 from urllib.parse import quote
-    
+
 from aiohttp import ClientSession
-    
+
 if TYPE_CHECKING:
     from fastapi import UploadFile
 
@@ -20,8 +20,8 @@ IMAGE_TYPES = {
 
 def construct_image_path(plugin_name: str, file_hash: str, mime_type: str) -> str:
     return f"artifact_images/{quote(plugin_name)}-{file_hash}{IMAGE_TYPES[mime_type]}"
-    
-    
+
+
 async def b2_upload(filename: str, binary: "bytes", mime_type: str = "b2/x-auto"):
     async with ClientSession(raise_for_status=True) as web:
         auth_str = f"{getenv('B2_APP_KEY_ID')}:{getenv('B2_APP_KEY')}".encode("utf-8")
